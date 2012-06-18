@@ -1,0 +1,86 @@
+/CLE
+/PREP7
+SMRT,OFF
+/UNITS, SI
+
+TurnsNumber=coil.turnsNumber
+CoilCurrent=coil.current
+CoilOuterRadius=length.coil.outerRadius
+CoilHeight=length.coil.height
+CoreRadius=length.core.radius
+CoreHeight=length.core.height
+ChannelRadius=0
+CorePermeability=core.permeability
+ElementSize=length.ansys.elementSize
+Infty=length.ansys.infty
+
+ET,1,53,,,1
+MP,MURX,1,1
+MP,MURX,2,1
+MP,MURX,3,CorePermeability
+
+RECTNG, 0,CoreRadius, -ChannelRadius-CoreHeight, -ChannelRadius-CoilHeight
+RECTNG, 0,CoreRadius, -ChannelRadius-CoilHeight, -ChannelRadius
+RECTNG, CoreRadius,CoilOuterRadius, -ChannelRadius-CoilHeight, -ChannelRadius !coil 11
+
+!air
+RECTNG, 0,CoreRadius,-ChannelRadius-CoreHeight-Infty, -ChannelRadius-CoreHeight
+RECTNG, 0,CoreRadius,-ChannelRadius, -ChannelRadius+Infty
+RECTNG, CoreRadius,CoilOuterRadius,-ChannelRadius, -ChannelRadius+Infty
+RECTNG, CoilOuterRadius,CoilOuterRadius+Infty, -ChannelRadius, -ChannelRadius+Infty
+RECTNG, CoilOuterRadius,CoilOuterRadius+Infty, -ChannelRadius-CoilHeight, -ChannelRadius
+RECTNG, CoilOuterRadius,CoilOuterRadius+Infty, -ChannelRadius-CoreHeight, -ChannelRadius-CoilHeight
+RECTNG, CoreRadius, CoilOuterRadius,-ChannelRadius-CoreHeight, -ChannelRadius-CoilHeight
+RECTNG, CoreRadius, CoilOuterRadius,-ChannelRadius-CoreHeight-Infty, -ChannelRadius-CoreHeight
+RECTNG, CoilOuterRadius,CoilOuterRadius+Infty, -ChannelRadius-CoreHeight-Infty, -ChannelRadius-CoreHeight
+AGLUE, ALL
+
+ASEL,S,AREA,,17
+AATT,2,1,1
+ASUM
+*GET,A,AREA,,AREA        ! AREA OF COIL CROSS-SECTION
+JSV=TurnsNumber*CoilCurrent/A
+
+ASEL, S, AREA,, 1
+ASEL, A, AREA,, 15
+AATT,3,1,1
+
+ASEL, S, AREA,, 16
+ASEL, A, AREA,, 23
+ASEL, A, AREA,, 19
+ASEL, A, AREA,, 18
+ASEL, A, AREA,, 20
+ASEL, A, AREA,, 14
+ASEL, A, AREA,, 13
+ASEL, A, AREA,, 22
+ASEL, A, AREA,, 21
+AATT, 1, 1, 1
+
+ESIZE, ElementSize
+MOPT,QMESH,DEFAULT
+ASEL, ALL
+AMESH, ALL
+
+NSEL,ext
+NSEL,u,LOC,x,0
+SF,ALL,INF
+NSEL,S,LOC,X,0
+NSEL,R,LOC,Y,-ChannelRadius-CoilHeight/2
+D,ALL,AZ,0
+NSEL,ALL
+/OUTPUT,nlist,txt
+NLIST
+/OUTPUT,ansys_job,output
+FINISH
+
+/SOLU
+ANTYPE,STATIC
+ESEL,S,MAT,,2
+BFE,ALL,JS,1,,,JSV         ! current
+ESEL,ALL
+MAGSOLV
+FINISH
+
+/POST1
+/OUTPUT,prnsol,txt
+PRNSOL, H

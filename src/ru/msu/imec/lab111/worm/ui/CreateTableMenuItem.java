@@ -1,7 +1,7 @@
 package ru.msu.imec.lab111.worm.ui;
 
-import ru.msu.imec.lab111.worm.WormReader;
 import ru.msu.imec.lab111.worm.WormView;
+import ru.msu.imec.lab111.worm.history.BinaryWormHistory;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -43,13 +43,17 @@ public class CreateTableMenuItem extends BaseMenuItem {
                 for (String filename : files) {
                     if (filename.endsWith(".bin")) {
                         File wf = new File(dir.getAbsolutePath().concat("//").concat(filename));
-                        int hz = Integer.parseInt(filename.substring(0, filename.length() - 4));
-                        WormReader wr = new WormReader(wf);
-                        String str = wr.excelString();
+                        BinaryWormHistory history = BinaryWormHistory.fromFile(wf);
+                        int hz = (int) (history.getParams().getFrequency());
+//                        int hz = Integer.parseInt(filename.substring(0, filename.length() - 4));
+//                        WormReader wr = new WormReader(wf);
+
+                        String statistics = history.excelStatistics();
+//                        String str = wr.excelString();
 //						double v = wr.velocity();
 //						wv.setTitle(String.format("%1$i %2$d", hz, v));
 //						String str = String.format("%1$d %2$f %n", hz, v);
-                        map.put(hz, String.format("%1$d\t\t0\t0\t%2$s%n", hz, str));
+                        map.put(hz, String.format("%1$d\t\t0\t0\t%2$s%n", hz, statistics));
 
                     }
                 }

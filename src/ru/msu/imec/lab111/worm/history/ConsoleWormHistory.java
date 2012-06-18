@@ -6,14 +6,10 @@ import ru.msu.imec.lab111.worm.CalculationState;
 /**
  * Just console output: no dataSource, no pop, only printOnPush
  */
-public class ConsoleWormHistory implements WormHistory {
+public class ConsoleWormHistory extends WormHistory {
     public ConsoleWormHistory(CalculationParams params) {
+        super(params);
 //        empty
-    }
-
-    @Override
-    public void setDataSource(CalculationParams params) {
-//        no action
     }
 
     @Override

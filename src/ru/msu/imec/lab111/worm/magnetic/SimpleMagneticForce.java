@@ -4,6 +4,7 @@ import ru.msu.imec.lab111.worm.CalculationParams;
 
 public class SimpleMagneticForce implements MagneticForce {
     public SimpleMagneticForce(CalculationParams params) {
+
     }
 
     @Override

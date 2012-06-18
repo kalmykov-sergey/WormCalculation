@@ -5,6 +5,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 public class CalculationStateTest {
+
     @Test
     public void testSetInitialConditions() throws Exception {
         CalculationParams params = new CalculationParams();

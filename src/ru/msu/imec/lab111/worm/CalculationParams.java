@@ -8,6 +8,10 @@ public class CalculationParams {
     private double timeStep;
     private double dimensionStep;
 
+    public CalculationParams() {
+        this.setFrequency(0);
+    }
+
     public double getFrequency() {
         return frequency;
     }

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 public class WormConsoleAppTest {
 
+
     @Test
     public void testCalc() throws Exception {
         CalculationParams params = null;
