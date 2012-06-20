@@ -1,6 +1,5 @@
 package ru.msu.imec.lab111.worm;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -52,7 +51,7 @@ public class AnsysConnector {
         }
     }
 
-    public String generateAdpl() throws IOException, ConfigurationException {
+    public String generateAdpl() throws IOException {
 
         File adplStubFile = new File("resources/coilFieldStub.adpl");
         File magneticPropertiesFile = new File("resources/magnetic.properties");
